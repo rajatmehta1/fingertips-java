@@ -1,0 +1,10 @@
+profile:
+  loaded: prod
+news:
+  finnhubh:
+    url: https://finnhub.io/api/v1/company-news
+    api:
+      key: ctg9onpr01qn78n3dod0ctg9onpr01qn78n3dodg
+  newsapi:
+    api:
+      key: ac41a9a1eb0c49b9a4b92f5a04de3b4c

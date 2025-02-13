@@ -1,0 +1,12 @@
+profile:
+  loaded: base
+spring:
+  application:
+    name: Fingertips Java
+  profiles:
+    active: local
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/ftips?currentSchema=public
+    username: postgres
+    password: admin123

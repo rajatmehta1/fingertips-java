@@ -1,0 +1,14 @@
+create table news_source(
+   source_id INT primary key,
+   source_name VARCHAR(255),
+   source_desc VARCHAR(255),
+   source_url VARCHAR(255)
+)
+
+create table stock_symbols(
+   stock_symbol VARCHAR(255) primary key,
+   stock_name VARCHAR(255) not null,
+   stock_desc varchar(255),
+   is_active char(1) not null,
+   is_in_sp char(1) not null
+)
