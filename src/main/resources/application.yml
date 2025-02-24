@@ -7,6 +7,6 @@ spring:
     active: local
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/ftips?currentSchema=public
+    url: jdbc:postgresql://localhost:5433/fingertipsdb?currentSchema=public
     username: postgres
     password: admin123

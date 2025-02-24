@@ -1,0 +1,64 @@
+create database fingertips_db;
+\c fingertips_db;
+CREATE EXTENSION vector;
+
+-- Users Table
+CREATE TABLE users (
+    userid SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('Admin', 'Trader'))
+);
+
+-- Tickers Table
+CREATE TABLE tickers (
+    tickerid SERIAL PRIMARY KEY,
+    symbol VARCHAR(10) NOT NULL UNIQUE,
+    companyname VARCHAR(100) NOT NULL,
+    sector VARCHAR(50),
+    industry VARCHAR(50),
+    keypointdesc TEXT NULL
+);
+
+-- NewsArticles Table
+CREATE TABLE news (
+    newsid SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    source VARCHAR(100) NOT NULL,
+    publicationdate TIMESTAMP NOT NULL,
+    content TEXT,
+    url VARCHAR(255) NOT NULL UNIQUE,
+    tickerid INT REFERENCES tickers(tickerid) ON DELETE CASCADE,
+    news_embedding vector(3000)
+);
+
+-- SentimentAnalysis Table
+CREATE TABLE sentimentanalysis (
+    sentimentid SERIAL PRIMARY KEY,
+    newsid INT REFERENCES news(newsid) ON DELETE CASCADE,
+    tickerid INT REFERENCES tickers(tickerid) ON DELETE CASCADE,
+    sentimentscore NUMERIC(5, 4) NOT NULL CHECK (sentimentscore >= -1 AND sentimentscore <= 1),
+    confidencescore NUMERIC(5, 4) NOT NULL CHECK (confidencescore >= 0 AND confidencescore <= 1),
+    analysisdate TIMESTAMP NOT NULL
+);
+
+-- TradeStrategies Table
+CREATE TABLE tradestrategies (
+    strategyid SERIAL PRIMARY KEY,
+    strategyname VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    parameters JSONB
+);
+
+-- Trades Table
+CREATE TABLE trades (
+    tradeid SERIAL PRIMARY KEY,
+    tickerid INT REFERENCES tickers(tickerid) ON DELETE CASCADE,
+    userid INT REFERENCES users(userid) ON DELETE CASCADE,
+    tradetype VARCHAR(10) NOT NULL CHECK (tradetype IN ('Buy', 'Sell')),
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price NUMERIC(10, 2) NOT NULL CHECK (price > 0),
+    tradedate TIMESTAMP NOT NULL,
+    strategyid INT REFERENCES tradestrategies(strategyid) ON DELETE SET NULL
+);

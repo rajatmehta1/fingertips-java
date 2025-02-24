@@ -47,8 +47,8 @@ public class NewsController {
         return  ResponseEntity.ok(alphaVantageService.fetchStockNews("mstr", "2024-01-10","2025-02-14").getBody()[0]);
     }
 
-    @GetMapping("/alphavantage")
-    public ResponseEntity<News[]> getNews3() {
-        return  alphaVantageService.fetchStockNews("MSTR", "2024-01-10","2025-02-14");
+    @GetMapping("/alphavantage/{ticker}")
+    public ResponseEntity<News[]> getNews3(@PathVariable String ticker) {
+        return  alphaVantageService.fetchStockNews(ticker, "2024-01-10","2025-22-14");
     }
 }
