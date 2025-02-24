@@ -7,6 +7,7 @@ import com.at.mappers.TickerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,5 +22,11 @@ public class TickerService {
         return tickers.stream()
                 .map(TickerMapper::toDTO) // Map each Ticker entity to TickerDTO
                 .collect(Collectors.toList());
+    }
+
+    public TickerDTO findTickerById(Integer tickerId) {
+        Optional<Ticker> ticker = tickersRepository.findById(tickerId);
+       if(ticker.isPresent()) return TickerMapper.toDTO(ticker.get());
+       else return null;
     }
 }

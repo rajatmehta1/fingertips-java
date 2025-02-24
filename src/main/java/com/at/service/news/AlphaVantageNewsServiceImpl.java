@@ -40,4 +40,19 @@ public class AlphaVantageNewsServiceImpl implements NewsService{
             throw new RuntimeException("Failed to fetch news for stock: " + stckSymbol);
         }
     }
+
+    @Override
+    public List<News> fetchStockNewsAsLst(String stckSymbol, String startDate, String endDate) {
+        String url = "https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=" + stckSymbol + "&apikey=" + apiKey;
+        ResponseEntity<AlphaVantageResponse> response = restTemplate.getForEntity(url, AlphaVantageResponse.class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            System.out.println("Size of list ==> " + response.getBody().getFeed().size());
+            List<News> newsList =  response.getBody().getFeed().stream().map(f -> new News(f)).collect(Collectors.toList());
+            System.out.println("newsList ==> " + newsList.size());
+            return newsList;
+        } else {
+            throw new RuntimeException("Failed to fetch news for stock: " + stckSymbol);
+        }
+    }
 }

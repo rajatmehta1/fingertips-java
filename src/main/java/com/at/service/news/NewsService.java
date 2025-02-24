@@ -8,4 +8,8 @@ import java.util.List;
 public interface NewsService {
     public List<News> fetchLatestNews();
     public ResponseEntity<News[]> fetchStockNews(String stckSymbol, String startDate, String endDate);
+
+    default public List<News> fetchStockNewsAsLst(String stckSymbol, String startDate, String endDate) {
+        return null;
+    }
 }

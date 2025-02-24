@@ -15,7 +15,7 @@ public class News {
 
     private String source;
 
-    private String publicationdate;
+//    private String publicationdate;
 
     private String content;
 

@@ -27,7 +27,9 @@ public class News {
     public News(NewsData article) {
         this.desc = article.getSummary();
         this.title = article.getTitle();
-
+        this.source = article.getSource();
+        this.url = article.getUrl();
+        this.time_published = article.getTime_published();
     }
 
 
